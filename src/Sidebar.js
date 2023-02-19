@@ -8,7 +8,7 @@ function Sidebar() {
             <img src="https://e0.pxfuel.com/wallpapers/835/535/desktop-wallpaper-template-pulse-html-5.jpg" alt=""/>
 
             <div className="profile_details">
-                <Avatar/>
+                <Avatar src="https://media.licdn.com/dms/image/D4D03AQEs3KunoXMnwg/profile-displayphoto-shrink_400_400/0/1668701295243?e=1682553600&v=beta&t=vC1xxdn7td9kWOWYgvpR1rOidXwdIupYKhiKlj9ALew"/>
                 <h4>Shubham Priyam Patel</h4>
                 <p>Frontend Developer</p>
             </div>
