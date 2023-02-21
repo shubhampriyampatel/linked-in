@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar } from '@mui/material'
 import PhotoIcon from '@mui/icons-material/Photo';
 import VideocamIcon from '@mui/icons-material/Videocam';
@@ -6,14 +6,33 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import FeedIcon from '@mui/icons-material/Feed';
 import "./css/feed.css"
 import Post from './Post';
+
+import {db} from './Firebase'
+
 function Feed() {
+  const [input, setInput] = useState();
+  const submitPost=(e)=>{
+    e.preventDefault();
+    db.collection('posts').add({
+      name:"Shubham Priyam Patel",
+      description:"Frontend Developer",
+      message:input,
+      photoURL:"https://media.licdn.com/dms/image/D4D03AQEs3KunoXMnwg/profile-displayphoto-shrink_100_100/0/1668701295243?e=1682553600&v=beta&t=xPcZfwR6ZXE3QnI9HEuC9j0uReYxSXdUwNGvpEhO36k",
+      
+    });
+
+    setInput("");
+
+  }
+  
+  
   return (
     <div className="feed">
       <div className="feed_input">
         <div className="feed_form">
         <Avatar src="https://media.licdn.com/dms/image/D4D03AQEs3KunoXMnwg/profile-displayphoto-shrink_400_400/0/1668701295243?e=1682553600&v=beta&t=vC1xxdn7td9kWOWYgvpR1rOidXwdIupYKhiKlj9ALew"/>
-        <form>
-            <input type="text" placeholder="Start a Post"/>
+        <form onSubmit={submitPost}>
+            <input type="text" placeholder="Start a Post" value={input} onChange={e=>setInput(e.target.value)}/>
             <input type="submit"/>        
         </form>
         </div>
