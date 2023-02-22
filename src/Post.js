@@ -1,5 +1,5 @@
 import { Avatar } from '@mui/material'
-import React from 'react'
+import {React, useState} from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import "./css/post.css"
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
@@ -8,6 +8,17 @@ import RepeatIcon from '@mui/icons-material/Repeat';
 import SendIcon from '@mui/icons-material/Send';
 
 function Post({name, description, message, photoURL}) {
+
+  const [isActive, setIsActive] = useState(false);
+
+  const handleClick = () => {
+    // 👇️ toggle
+    setIsActive(current => !current);
+
+    // 👇️ or set to true
+    // setIsActive(true);
+  };
+
   return (
     <div className="posts">
         <div className="post_header">
@@ -27,7 +38,11 @@ function Post({name, description, message, photoURL}) {
 
          <div className="post_footer">
             <div className="post_footer_option">
-              <ThumbUpOffAltIcon/>
+              <ThumbUpOffAltIcon style={{
+          backgroundColor: isActive ? 'blue' : '',
+          color: isActive ? 'white' : 'blue',
+        }}
+        onClick={handleClick}/>
               <span>Like</span>
             </div>
 

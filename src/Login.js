@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import "./css/login.css"
 import { loginuser } from './features/userSlice';
 import { auth } from './Firebase';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 
 
 function Login() {
@@ -30,19 +31,14 @@ function Login() {
             return alert("Password is required.")
         }
 
-        auth.createUserWithEmailAndPassword(email,password).then((userAuth)=>{
-            userAuth.user.updateProfile({
-                displayName:name,
-                photoURL:photoURL
-            }).then(()=>{
-                dispatch(loginuser({
-                    email:userAuth.user.email,
-                    uid:userAuth.user.uid,
-                    photoURL:photoURL,
-                    displayName:name
-                }))
-            })
-        }).catch(error=>(alert(error)))
+        createUserWithEmailAndPassword(auth,email,password).then((user)=>{
+            dispatch(loginuser({
+             email:user.email,
+             uid:user.uid,
+             photoURL:user.photoURL,
+             displayName:user.displayName
+            }))
+         }).catch(error=>alert(error))
 
         setEmail("");
         setName("");
@@ -59,7 +55,7 @@ function Login() {
             return alert("Password is required.")
         }
 
-        auth.signInWithEmailAndPassword(email,password).then((user)=>{
+        signInWithEmailAndPassword(auth,email,password).then((user)=>{
            dispatch(loginuser({
             email:user.email,
             uid:user.uid,
@@ -75,7 +71,7 @@ function Login() {
     <div className='loginScreen'>
         <img src="https://brand.linkedin.com/etc.clientlibs/settings/wcm/designs/gandalf/clientlibs/resources/images/og-social-share-image.jpg" alt=''/>
     {
-        signup===true ? (<from onSubmit={register}>
+        signup===true ? (<form onSubmit={register}>
             <input type="text" placeholder="Enter your Full Name" value={name} onChange={e=>setName(e.target.value)}/>
             <input type="text" placeholder="Paste your Profile Picture URL" value={photoURL} onChange={e=>setPhotoURL(e.target.value)}/>
             <input type="email" placeholder="Enter your Email" value={email} onChange={e=>setEmail(e.target.value)}/>
@@ -83,14 +79,14 @@ function Login() {
             <input type="submit" value="Sign Up"/>
             <h4>Already a member ? <span onClick={e=>setSignup(false)}>Login Here</span></h4>
 
-        </from>) : (<from onSubmit={signin}>
+        </form>) : (<form onSubmit={signin}>
             
             <input type="email" placeholder="Enter your Email" value={email} onChange={e=>setEmail(e.target.value)}/>
             <input type="password" placeholder="Enter your Password" value={password} onChange={e=>setPassword(e.target.value)}/>
             <input type="submit" value="Sign In"/>
             <h4>Not a member ? <span onClick={e=>setSignup(true)}>Sign Up Here</span></h4>
 
-        </from>)
+        </form>)
     }
  
     </div>
