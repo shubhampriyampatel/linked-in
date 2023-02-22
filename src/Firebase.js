@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore';
+import { getAuth } from "firebase/auth"
 
 const firebaseConfig = {
     apiKey: "AIzaSyDsX08v6WIBrD47k19f2TE2jN_lQtCylg4",
@@ -13,6 +14,11 @@ const firebaseConfig = {
 
   const app = initializeApp(firebaseConfig);
 
+  const auth = getAuth(app);
+  // initialize this way ^^^
+ 
+
   // Export firestore database
   // It will be imported into your react app whenever it is needed
-  export const db = getFirestore(app);
+  const db = getFirestore(app);
+  export { db, auth }

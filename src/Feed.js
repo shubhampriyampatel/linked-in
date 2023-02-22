@@ -6,7 +6,7 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import FeedIcon from '@mui/icons-material/Feed';
 import "./css/feed.css"
 import Post from './Post';
-import { collection, getDocs, addDoc, QuerySnapshot } from "firebase/firestore";
+import { collection, getDocs, addDoc, QuerySnapshot, query, orderBy } from "firebase/firestore";
 import {db} from './Firebase'
 
 
@@ -23,6 +23,11 @@ function Feed() {
       photoURL:"https://media.licdn.com/dms/image/D4D03AQEs3KunoXMnwg/profile-displayphoto-shrink_100_100/0/1668701295243?e=1682553600&v=beta&t=xPcZfwR6ZXE3QnI9HEuC9j0uReYxSXdUwNGvpEhO36k",
       
       })
+      getDocs(collection(db,"posts")).then((QuerySnapshot)=>{
+        const newData = QuerySnapshot.docs.map((doc)=>({...doc.data(),id:doc.id}));
+        setPost(newData);
+          // console.log(posts,newData)
+       })
     } catch(e){
       console.log("e",e)
     }
@@ -32,7 +37,7 @@ function Feed() {
      getDocs(collection(db,"posts")).then((QuerySnapshot)=>{
       const newData = QuerySnapshot.docs.map((doc)=>({...doc.data(),id:doc.id}));
       setPost(newData);
-      //  console.log(posts,newData)
+        console.log(posts,newData)
      })
   },[])
   
@@ -69,8 +74,8 @@ function Feed() {
       </div>
 
       {
-        posts.map(({data : {name, description, message, photoURL}})=>{
-            return <Post  name={name} description={description} message={message} photoURL={photoURL}/>
+        posts.map((post)=>{
+            return <Post  name={post.name} description={post.description} message={post.message} photoURL={post.photoURL}/>
         })
       }
 
